@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Feliz Navidad Sofía</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@400;700&display=swap" 
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ======= ESTILOS GENERALES ======= */
+    /* Usamos 'Open Sans' para el texto general y 'Lobster' para títulos */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Open Sans', sans-serif;
+      /* Fondo navideño: rojo + verde */
+      background: linear-gradient(45deg, #f44336, #4CAF50);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative; /* Para posicionar elementos dentro de la ventana */
+      overflow: hidden;   /* Evitar barras de scroll cuando el botón se mueve */
+    }
+
+    /* Título principal con la fuente 'Lobster' */
+    h1 {
+      font-family: 'Lobster', cursive;
+      /* Letra amarilla */
+      color: #FFEE58;
+      font-size: 3.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      /* Sombra luminosa amarilla */
+      text-shadow: 
+        0 0 7px   rgba(255, 234, 0, 0.7),
+        0 0 15px  rgba(255, 234, 0, 0.5),
+        0 0 25px  rgba(255, 234, 0, 0.3);
+      transition: transform 0.3s;
+    }
+    /* Efecto hover sutil en el h1 (opcional) */
+    h1:hover {
+      transform: scale(1.05);
+    }
+
+    /* ======= BOTONES (estilo base) ======= */
+    button {
+      background-color: #fff;
+      color: #4CAF50;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background-color 0.2s;
+      font-weight: 700; /* un poco más grueso el texto */
+      position: relative; /* Para tooltips */
+    }
+    button:hover {
+      background-color: #f1f1f1;
+      transform: scale(1.05);
+    }
+
+    /* ======= SECCIÓN "¿Serías mi pre novia?" ======= */
+    .pre-novia {
+      margin-top: 2rem;
+      text-align: center;
+      /* Letra amarilla */
+      color: #FFEE58;
+      font-size: 1.7rem; /* un poco más grande */
+      text-shadow: 
+        0 0 5px rgba(255, 234, 0, 0.7), 
+        0 0 10px rgba(255, 234, 0, 0.5);
+    }
+    .options {
+      margin-top: 1rem;
+    }
+    .options button {
+      margin: 0 1rem;
+      font-size: 1.2rem;
+      padding: 0.7rem 1.2rem; /* un pelín más de espacio */
+    }
+
+    /* ======= MENSAJE ADICIONAL (invisible al inicio) ======= */
+    .mensaje {
+      margin-top: 2rem;
+      /* Letra amarilla */
+      color: #FFEE58;
+      font-size: 2rem; /* un poco más grande */
+      text-align: center;
+      display: none; /* Se muestra cuando se da clic en "Sí" */
+      font-weight: 700;
+      text-shadow: 
+        0 0 5px  rgba(255, 234, 0, 0.7), 
+        0 0 10px rgba(255, 234, 0, 0.4);
+    }
+
+    /* ======= GIF DEBAJO DEL MENSAJE ======= */
+    .mensaje img {
+      display: block;
+      margin: 1rem auto 0;  /* espacio superior de 1rem */
+      max-width: 300px;     /* ajustar ancho máximo del GIF */
+      border-radius: 10px;  /* esquinas redondeadas */
+      box-shadow: 0 5px 8px rgba(0,0,0,0.3);
+    }
+
+    /* ======= BOTÓN "Ver Carta" ======= */
+    .ver-carta-btn {
+      margin-top: 1rem;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      /* Para centrar la imagen */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .ver-carta-btn img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .ver-carta-btn:hover img {
+      transform: scale(1.1);
+    }
+
+    /* ======= TOOLTIP "Ver Carta" ======= */
+    /* Usamos el atributo data-tooltip para mostrar el texto al pasar el mouse */
+    .ver-carta-btn::after {
+      content: attr(data-tooltip); /* Saca el texto del atributo data-tooltip */
+      position: absolute;
+      bottom: -2.5rem; /* Ajustar según la imagen */
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 0.5rem 0.8rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .ver-carta-btn:hover::after {
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Título principal -->
+  <h1>¡Feliz Navidad, Sofía! Te quiero mucho</h1>
+
+  <!-- Sección: "¿Serías mi pre novia?" con botones Sí y No -->
+  <div class="pre-novia">
+    ¿Serías mi pre novia?
+    <br><br>
+    <div class="options">
+      <button id="siButton">Sí</button>
+      <button id="noButton">No</button>
+    </div>
+  </div>
+
+  <!-- Mensaje que aparece al presionar el botón "Sí" -->
+  <div class="mensaje" id="mensajeSecundario">
+    Sabía que aceptarías mi amor
+    <!-- GIF que aparecerá debajo del texto -->
+    <img 
+      src="animenavidad.gif" 
+      alt="Gif de amor"
+    />
+
+    <!-- Botón con imagen que redirige a la carta -->
+    <button 
+      class="ver-carta-btn" 
+      id="verCartaBtn" 
+      data-tooltip="Ver carta"
+    >
+      <!-- Icono de sobre -->
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/1029/1029183.png"
+        alt="Ver Carta"
+      />
+    </button>
+  </div>
+  
+  <!-- AUDIO: Cambia 'src' por la URL/archivo de tu elección -->
+  <audio id="miAudio" src="padoru.mp3" type="audio/mp3"></audio>
+
+  <script>
+    // Referencias a elementos del DOM
+    const siButton = document.getElementById('siButton');
+    const noButton = document.getElementById('noButton');
+    const mensajeSecundario = document.getElementById('mensajeSecundario');
+    const preNoviaSection = document.querySelector('.pre-novia');
+    const miAudio = document.getElementById('miAudio');
+    const verCartaBtn = document.getElementById('verCartaBtn');
+
+    // Factor de escala inicial para el botón "Sí"
+    let scaleFactor = 1;
+
+    // Botón "Sí":
+    siButton.addEventListener('click', () => {
+      // Oculta la pregunta
+      preNoviaSection.style.display = 'none';
+      
+      // Muestra el mensaje (y el GIF, que está dentro)
+      mensajeSecundario.style.display = 'block';
+      
+      // Empieza la reproducción del audio (sólo funcionará tras primera interacción)
+      miAudio.play();
+    });
+
+    // Botón "No":
+    noButton.addEventListener('click', () => {
+      // Agranda el botón "Sí"
+      scaleFactor += 0.2;
+      siButton.style.transform = `scale(${scaleFactor})`;
+
+      // Mueve el botón "No" a posición aleatoria
+      const maxX = window.innerWidth - noButton.offsetWidth;
+      const maxY = window.innerHeight - noButton.offsetHeight;
+      const randomX = Math.floor(Math.random() * maxX);
+      const randomY = Math.floor(Math.random() * maxY);
+
+      noButton.style.position = 'absolute';
+      noButton.style.left = randomX + 'px';
+      noButton.style.top = randomY + 'px';
+    });
+
+    // Botón "Ver Carta": redirige a la carta
+    verCartaBtn.addEventListener('click', () => {
+      window.location.href = 'carta.html';
+    });
+  </script>
+</body>
+</html>
